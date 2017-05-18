@@ -30,8 +30,8 @@ git -C "$INSTALL_DIR" fetch origin
 git -C "$INSTALL_DIR" pull
 
 ##
-chmod ug=rwx,o=rx "${INSTALL_DIR}*.sh"
-chmod ugo=rw "${INSTALL_DIR}*.conf"
+chmod ug=rwx,o=rx ${INSTALL_DIR}*.sh
+chmod ugo=rw ${INSTALL_DIR}*.conf
 
 ##
 if [ ! -e "/usr/bin/${SCRIPT_NAME}" ]; then
