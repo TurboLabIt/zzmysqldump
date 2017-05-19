@@ -38,9 +38,10 @@ if [ ! -z "$1" ]; then
 	if [ ! -f "$CONFIGFILE_PROFILE_FULLPATH_ETC" ] && [ ! -f "$CONFIGFILE_PROFILE_FULLPATH_DIR" ]; then
 
 		echo ""
+		echo "vvvvvvvvvvvvvvvvvvvv"
 		echo "Catastrophic error!!"
-		echo "--------------------"
-		echo "Profile config file not found:"
+		echo "^^^^^^^^^^^^^^^^^^^^"
+		echo "Profile config file(s) not found:"
 		echo "[X] $CONFIGFILE_PROFILE_FULLPATH_ETC"
 		echo "[X] $CONFIGFILE_PROFILE_FULLPATH_DIR"
 
@@ -51,8 +52,8 @@ if [ ! -z "$1" ]; then
 		echo "sudo mkdir -p /etc/turbolab.it/ && sudo cp $CONFIGFILE_FULLPATH_DEFAULT $CONFIGFILE_PROFILE_FULLPATH_ETC && sudo nano $CONFIGFILE_PROFILE_FULLPATH_ETC && sudo chmod ugo=rw /etc/turbolab.it/*.conf"
 
 		echo ""
-		echo "Script end"
-		echo "----------"
+		echo "The End"
+		echo "-------"
 		echo $(date)
 		echo "$FRAME"
 		exit
@@ -68,10 +69,38 @@ do
 done
 
 ## Create backup directory
+echo ""
+echo "Creating backup directory"
+echo "-------------------------"
+echo "${MYSQL_BACKUP_DIR}"
 mkdir -p "${MYSQL_BACKUP_DIR}"
 
 ## Retrive databases list and test connection
-DATABASES=$(mysql -N -u "$MYSQL_USER" -p"$MYSQL_PASSWORD" -h "$MYSQL_HOST" -e 'show databases' | egrep -vi "$MYSQL_DB_EXCLUDE" | egrep -i "$MYSQL_DB_INCLUDE")
+echo ""
+echo "Retrieving DBs list"
+echo "-------------------"
+DATABASES=$(mysql -N -u "$MYSQL_USER" -p"$MYSQL_PASSWORD" -h "$MYSQL_HOST" -e 'show databases')
+echo $DATABASES
+
+## Exclude filter
+if [ ! -z "$MYSQL_DB_EXCLUDE" ]; then
+
+	echo ""
+	echo "Applying exclude filter"
+	echo "-----------------------"
+	DATABASES=$(echo "$DATABASES" | egrep -vx "$MYSQL_DB_EXCLUDE")
+	echo $DATABASES
+fi
+
+## Include filter
+if [ ! -z "$MYSQL_DB_INCLUDE" ]; then
+
+	echo ""
+	echo "Applying include filter"
+	echo "-----------------------"
+	DATABASES=$(echo "$DATABASES" | egrep -x "$MYSQL_DB_INCLUDE")
+	echo $DATABASES
+fi
 
 ## Iterate over DBs
 for DATABASE in $DATABASES
@@ -80,12 +109,24 @@ do
 	DUMPFILE_FULLPATH=${MYSQL_BACKUP_DIR}${HOSTNAME}_${DATABASE}_${DOWEEK}.sql
 	
 	## mysqldump
+	echo ""
+	echo "mysqldumping"
+	echo "------------"
+	echo "$DUMPFILE_FULLPATH"
 	mysqldump -u "$MYSQL_USER" -p"$MYSQL_PASSWORD" $MYSQLDUMP_OPTIONS --databases "$DATABASE" > "$DUMPFILE_FULLPATH"
 	
 	## 7z compression
+	echo ""
+	echo "7-zipping"
+	echo "---------"
+	echo ${DUMPFILE_FULLPATH}.7z
 	7z a ${SEVENZIP_COMPRESS_OPTIONS} "${DUMPFILE_FULLPATH}.7z" "${DUMPFILE_FULLPATH}"
 	
 	## remove uncompressed dump
+	echo ""
+	echo "Removing uncompressed dump"
+	echo "--------------------------"
+	echo "$DUMPFILE_FULLPATH"
 	rm -f "${DUMPFILE_FULLPATH}"
 done
 
@@ -101,7 +142,7 @@ echo "---------"
 echo "$((($(date +%s)-$TIME_START)/60)) min."
 
 echo ""
-echo "Script end"
-echo "----------"
+echo "The End"
+echo "-------"
 echo $(date)
 echo "$FRAME"
