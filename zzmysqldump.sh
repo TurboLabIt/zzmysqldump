@@ -28,7 +28,39 @@ CONFIGFILE_MYSQL_FULLPATH_ETC=/etc/turbolab.it/mysql.conf
 CONFIGFILE_FULLPATH_ETC=/etc/turbolab.it/$CONFIGFILE_NAME
 CONFIGFILE_FULLPATH_DIR=${SCRIPT_DIR}$CONFIGFILE_NAME
 
-for CONFIGFILE_FULLPATH in "$CONFIGFILE_FULLPATH_DEFAULT" "$CONFIGFILE_MYSQL_FULLPATH_ETC" "$CONFIGFILE_FULLPATH_ETC" "$CONFIGFILE_FULLPATH_DIR"
+## Dump profile requested
+if [ ! -z "$1" ]; then
+
+	CONFIGFILE_PROFILE_NAME=${SCRIPT_NAME}.profile.${1}.conf
+	CONFIGFILE_PROFILE_FULLPATH_ETC=/etc/turbolab.it/$CONFIGFILE_PROFILE_NAME
+	CONFIGFILE_PROFILE_FULLPATH_DIR=${SCRIPT_DIR}$CONFIGFILE_PROFILE_NAME
+
+	if [ ! -f "$CONFIGFILE_PROFILE_FULLPATH_ETC" ] && [ ! -f "$CONFIGFILE_PROFILE_FULLPATH_DIR" ]; then
+
+		echo ""
+		echo "Catastrophic error!!"
+		echo "--------------------"
+		echo "Profile config file not found:"
+		echo "[X] $CONFIGFILE_PROFILE_FULLPATH_ETC"
+		echo "[X] $CONFIGFILE_PROFILE_FULLPATH_DIR"
+
+		echo ""
+		echo "How to fix it?"
+		echo "--------------"
+		echo "Create a config file for this profile:"
+		echo "sudo mkdir -p /etc/turbolab.it/ && sudo cp $CONFIGFILE_FULLPATH_DEFAULT $CONFIGFILE_PROFILE_FULLPATH_ETC && sudo nano $CONFIGFILE_PROFILE_FULLPATH_ETC && sudo chmod ugo=rw /etc/turbolab.it/*.conf"
+
+		echo ""
+		echo "Script end"
+		echo "----------"
+		echo $(date)
+		echo "$FRAME"
+		exit
+	fi
+fi
+
+
+for CONFIGFILE_FULLPATH in "$CONFIGFILE_FULLPATH_DEFAULT" "$CONFIGFILE_MYSQL_FULLPATH_ETC" "$CONFIGFILE_FULLPATH_ETC" "$CONFIGFILE_FULLPATH_DIR" "$CONFIGFILE_PROFILE_FULLPATH_ETC" "$CONFIGFILE_PROFILE_FULLPATH_DIR"
 do
 	if [ -f "$CONFIGFILE_FULLPATH" ]; then
 		source "$CONFIGFILE_FULLPATH"
@@ -39,7 +71,7 @@ done
 mkdir -p "${MYSQL_BACKUP_DIR}"
 
 ## Retrive databases list and test connection
-DATABASES=$(mysql -N -u "$MYSQL_USER" -p"$MYSQL_PASSWORD" -h "$MYSQL_HOST" -e 'show databases' | egrep -vi "$MYSQL_DB_EXCLUDE")
+DATABASES=$(mysql -N -u "$MYSQL_USER" -p"$MYSQL_PASSWORD" -h "$MYSQL_HOST" -e 'show databases' | egrep -vi "$MYSQL_DB_EXCLUDE" | egrep -i "$MYSQL_DB_INCLUDE")
 
 ## Iterate over DBs
 for DATABASE in $DATABASES
@@ -72,6 +104,4 @@ echo ""
 echo "Script end"
 echo "----------"
 echo $(date)
-
-echo ""
 echo "$FRAME"
