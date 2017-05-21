@@ -43,10 +43,6 @@ git fetch origin
 git pull
 popd
 
-## Force required permissions
-chmod ug=rwx,o=rx ${INSTALL_DIR}*.sh
-chmod ugo=rw ${INSTALL_DIR}*.conf
-
 ## Symlink (globally-available zzmysqldump command)
 if [ ! -e "/usr/bin/${SCRIPT_NAME}" ]; then
 	ln -s ${INSTALL_DIR}${SCRIPT_NAME}.sh /usr/bin/${SCRIPT_NAME}
