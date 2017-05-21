@@ -29,15 +29,19 @@ if [ ! -d "$INSTALL_DIR" ]; then
 	echo "Installing..."
 	echo "-------------"
 	mkdir -p "$INSTALL_DIR_PARENT"
-	git -C "$INSTALL_DIR_PARENT" clone https://github.com/TurboLabIt/${SCRIPT_NAME}.git
+	pushd "$INSTALL_DIR_PARENT"
+	git clone https://github.com/TurboLabIt/${SCRIPT_NAME}.git
+	popd
 else
 	echo "Updating..."
 	echo "----------"
 fi
 
 ## Fetch & pull new code
+pushd "$INSTALL_DIR"
 git -C "$INSTALL_DIR" fetch origin
 git -C "$INSTALL_DIR" pull
+popd
 
 ## Force required permissions
 chmod ug=rwx,o=rx ${INSTALL_DIR}*.sh
