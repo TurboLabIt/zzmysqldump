@@ -113,7 +113,7 @@ do
 	echo "mysqldumping"
 	echo "------------"
 	echo "$DUMPFILE_FULLPATH"
-	#mysqldump -u "$MYSQL_USER" -p"$MYSQL_PASSWORD" $MYSQLDUMP_OPTIONS --databases "$DATABASE" > "$DUMPFILE_FULLPATH"
+	mysqldump -u "$MYSQL_USER" -p"$MYSQL_PASSWORD" $MYSQLDUMP_OPTIONS --databases "$DATABASE" > "$DUMPFILE_FULLPATH"
 
 	## autocommit optimization - header
 	NO_AUTOCOMMIT_TEXT="SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, AUTOCOMMIT=0;"
