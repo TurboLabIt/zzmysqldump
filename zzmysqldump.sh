@@ -120,7 +120,7 @@ do
 	echo "7-zipping"
 	echo "---------"
 	echo ${DUMPFILE_FULLPATH}.7z
-	7z a ${SEVENZIP_COMPRESS_OPTIONS} "${DUMPFILE_FULLPATH}.7z" "${DUMPFILE_FULLPATH}"
+	7za a ${SEVENZIP_COMPRESS_OPTIONS} "${DUMPFILE_FULLPATH}.7z" "${DUMPFILE_FULLPATH}"
 	
 	## remove uncompressed dump
 	echo ""
@@ -134,7 +134,7 @@ done
 echo ""
 echo "Backup file list"
 echo "-----------------"
-ls -trlh /home/zane/backup/mysql
+ls -trlh "${MYSQL_BACKUP_DIR}"
 
 echo ""
 echo "Time took"
