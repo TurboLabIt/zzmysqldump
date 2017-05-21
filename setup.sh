@@ -1,4 +1,5 @@
 #!/bin/bash
+SHELL := /bin/bash
 clear
 
 ## Script name
