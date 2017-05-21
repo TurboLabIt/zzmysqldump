@@ -1,5 +1,4 @@
 #!/bin/bash
-SHELL := /bin/bash
 clear
 
 ## Script name
@@ -16,8 +15,8 @@ else
 	apt install git mysql-client p7zip-full -y
 fi
 
-
 ## Install directory
+WORKING_DIR_ORIGINAL="$(pwd)"
 INSTALL_DIR_PARENT="/usr/local/turbolab.it/"
 INSTALL_DIR=${INSTALL_DIR_PARENT}${SCRIPT_NAME}/
 
@@ -30,21 +29,22 @@ if [ ! -d "$INSTALL_DIR" ]; then
 	echo "Installing..."
 	echo "-------------"
 	mkdir -p "$INSTALL_DIR_PARENT"
-	pushd "$INSTALL_DIR_PARENT"
+	cd "$INSTALL_DIR_PARENT"
 	git clone https://github.com/TurboLabIt/${SCRIPT_NAME}.git
-	popd
 else
 	echo "Updating..."
 	echo "----------"
 fi
 
 ## Fetch & pull new code
-pushd "$INSTALL_DIR"
+cd "$INSTALL_DIR"
 git fetch origin
 git pull
-popd
 
 ## Symlink (globally-available zzmysqldump command)
 if [ ! -e "/usr/bin/${SCRIPT_NAME}" ]; then
 	ln -s ${INSTALL_DIR}${SCRIPT_NAME}.sh /usr/bin/${SCRIPT_NAME}
 fi
+
+## Restore working directory
+cd $WORKING_DIR_ORIGINAL
