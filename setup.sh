@@ -39,8 +39,8 @@ fi
 
 ## Fetch & pull new code
 pushd "$INSTALL_DIR"
-git -C "$INSTALL_DIR" fetch origin
-git -C "$INSTALL_DIR" pull
+git fetch origin
+git pull
 popd
 
 ## Force required permissions
