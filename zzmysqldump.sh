@@ -49,7 +49,7 @@ if [ ! -z "$1" ]; then
 		echo "How to fix it?"
 		echo "--------------"
 		echo "Create a config file for this profile:"
-		echo "sudo mkdir -p /etc/turbolab.it/ && sudo cp $CONFIGFILE_FULLPATH_DEFAULT $CONFIGFILE_PROFILE_FULLPATH_ETC && sudo nano $CONFIGFILE_PROFILE_FULLPATH_ETC && sudo chmod ugo=rw /etc/turbolab.it/*.conf"
+		echo "sudo cp $CONFIGFILE_FULLPATH_DEFAULT $CONFIGFILE_PROFILE_FULLPATH_ETC && sudo nano $CONFIGFILE_PROFILE_FULLPATH_ETC && sudo chmod ugo=rw /etc/turbolab.it/*.conf"
 
 		echo ""
 		echo "The End"

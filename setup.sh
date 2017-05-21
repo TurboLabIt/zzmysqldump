@@ -5,8 +5,16 @@ clear
 SCRIPT_NAME=zzmysqldump
 
 ## Pre-requisites
-apt update
-apt install git mysql-client p7zip-full -y
+if [ -f "/etc/redhat-release"]; then
+	yum clean all
+	yum install epel-release -y
+	yum clean all
+	yum install p7zip p7zip-plugins -y
+else
+	apt update
+	apt install git mysql-client p7zip-full -y
+fi
+
 
 ## Install directory
 INSTALL_DIR_PARENT="/usr/local/turbolab.it/"
