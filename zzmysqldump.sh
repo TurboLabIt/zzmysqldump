@@ -122,7 +122,6 @@ do
 	echo ${DUMPFILE_FULLPATH}.7z
 	rm -f "${DUMPFILE_FULLPATH}.7z"
 	7za a ${SEVENZIP_COMPRESS_OPTIONS} -sdel "${DUMPFILE_FULLPATH}.7z" "${DUMPFILE_FULLPATH}"
-	7za t "${DUMPFILE_FULLPATH}.7z"
 done
 
 ## Display files
