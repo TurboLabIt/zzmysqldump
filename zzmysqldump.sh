@@ -120,14 +120,8 @@ do
 	echo "7-zipping"
 	echo "---------"
 	echo ${DUMPFILE_FULLPATH}.7z
-	7za a ${SEVENZIP_COMPRESS_OPTIONS} "${DUMPFILE_FULLPATH}.7z" "${DUMPFILE_FULLPATH}"
-	
-	## remove uncompressed dump
-	echo ""
-	echo "Removing uncompressed dump"
-	echo "--------------------------"
-	echo "$DUMPFILE_FULLPATH"
-	rm -f "${DUMPFILE_FULLPATH}"
+	rm -f "${DUMPFILE_FULLPATH}.7z"
+	7za a ${SEVENZIP_COMPRESS_OPTIONS} -sdel "${DUMPFILE_FULLPATH}.7z" "${DUMPFILE_FULLPATH}"
 done
 
 ## Display files
