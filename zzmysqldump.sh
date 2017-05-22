@@ -121,7 +121,7 @@ do
 
 	## autocommit optimization - footer
 	echo "COMMIT;" >> "$DUMPFILE_FULLPATH"
-	echo "SET @AUTOCOMMIT=@OLD_AUTOCOMMIT" >> "$DUMPFILE_FULLPATH"
+	echo "SET AUTOCOMMIT=@OLD_AUTOCOMMIT" >> "$DUMPFILE_FULLPATH"
 	
 	## 7z compression
 	echo ""
