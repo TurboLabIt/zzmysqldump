@@ -117,11 +117,11 @@ do
 
 	## autocommit optimization - header
 	NO_AUTOCOMMIT_TEXT="SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, AUTOCOMMIT=0;"
-	sed -i "/FOREIGN_KEY_CHECKS/ a ${NO_AUTOCOMMIT_TEXT}" "$DUMPFILE_FULLPATH"
+	sed -i "/Server version/ a ${NO_AUTOCOMMIT_TEXT}" "$DUMPFILE_FULLPATH"
 
 	## autocommit optimization - footer
 	echo "COMMIT;" >> "$DUMPFILE_FULLPATH"
-	echo "SET @AUTOCOMMIT=@@OLD_AUTOCOMMIT" >> "$DUMPFILE_FULLPATH"
+	echo "SET @AUTOCOMMIT=@OLD_AUTOCOMMIT" >> "$DUMPFILE_FULLPATH"
 	
 	## 7z compression
 	echo ""
