@@ -39,7 +39,7 @@ fi
 ## Fetch & pull new code
 cd "$INSTALL_DIR"
 git fetch origin
-git pull
+git merge FETCH_HEAD
 
 ## Symlink (globally-available zzmysqldump command)
 if [ ! -e "/usr/bin/${SCRIPT_NAME}" ]; then
