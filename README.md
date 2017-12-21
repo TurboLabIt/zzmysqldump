@@ -20,3 +20,6 @@ It's MySQL Server backup time! Run `zzmysqldump` to generate your 7z-compressed,
 -> `mysqldump: Couldn't execute 'FLUSH TABLES': Access denied; you need (at least one of) the RELOAD privilege(s) for this operation (1227)`
 
 The RELOAD privilege is needed for the `--lock-all-tables` mysqldump argument activated by the default configuration. If you can't grant the RELOAD privilege to your user and you are in a dev/low-traffic enviroment, you can just remove this argument in your config. For example, just leave `MYSQLDUMP_OPTIONS="--opt --add-drop-database"`
+
+-> `7-zipping` fails. `Error: Incorrect command line`
+Your 7za package is ancient! It's failing due to the `-sdel` argument, introduced by 7-zip 9.30 alpha (2012-10-26). You can just remove this argument in your config. For example, just leave `SEVENZIP_COMPRESS_OPTIONS="-t7z -mx=9 -mfb=256 -md=256m -ms=on"`
