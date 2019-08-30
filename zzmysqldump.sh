@@ -35,12 +35,9 @@ if [ ! -z "$1" ]; then
 	CONFIGFILE_PROFILE_FULLPATH_ETC=/etc/turbolab.it/$CONFIGFILE_PROFILE_NAME
 	CONFIGFILE_PROFILE_FULLPATH_DIR=${SCRIPT_DIR}$CONFIGFILE_PROFILE_NAME
 	
-	if [[ "$DIR" = /* ]]; then
+	if [[ "$1" == /* ]]; then
 	
 		CONFIGFILE_EXPLICIT=$1
-		
-	else
-		CONFIGFILE_EXPLICIT="/explicit/config/not/fully-qualified/$1"
 	fi
 	
 	if [ ! -f "$CONFIGFILE_PROFILE_FULLPATH_ETC" ] && [ ! -f "$CONFIGFILE_PROFILE_FULLPATH_DIR" ] && [ ! -f "$CONFIGFILE_EXPLICIT" ]; then
