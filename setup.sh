@@ -46,5 +46,9 @@ if [ ! -e "/usr/bin/${SCRIPT_NAME}" ]; then
 	ln -s ${INSTALL_DIR}${SCRIPT_NAME}.sh /usr/bin/${SCRIPT_NAME}
 fi
 
+if [ ! -e "/usr/bin/zzmysqlimp" ]; then
+	ln -s ${INSTALL_DIR}zzmysqlimp.sh /usr/bin/zzmysqlimp
+fi
+
 ## Restore working directory
 cd $WORKING_DIR_ORIGINAL
