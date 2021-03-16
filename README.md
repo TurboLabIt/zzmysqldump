@@ -19,9 +19,9 @@ It's MySQL Server backup time! Run `zzmysqldump` to generate your 7z-compressed,
 
 -> `mysqldump: Couldn't execute 'FLUSH TABLES': Access denied; you need (at least one of) the RELOAD privilege(s) for this operation (1227)`
 
-The RELOAD privilege is needed for the `--lock-all-tables` mysqldump argument activated by the default configuration. root has it, other users don't.
+Some extra privileges are needed for the `--lock-all-tables` mysqldump argument activated by the default configuration. root has it, other users don't.
 
-As root, grant it: `GRANT RELOAD ON *.* TO 'your_user'@'127.0.0.1'` (RELOAD can only be granted globally, not to a particular database). Problem solved.
+As root, grant it: `GRANT RELOAD, FLUSH_TABLES, LOCK TABLES, PROCESS ON *.* TO 'your_user'@'127.0.0.1'` (some of these can only be granted globally, not to a particular database).
 
 If you can't grant the RELOAD privilege to your user and you are in a dev/low-traffic enviroment, you can just remove `--lock-all-tables` in your config. For example, just leave `MYSQLDUMP_OPTIONS="--opt --add-drop-database"`
 
