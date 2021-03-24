@@ -12,7 +12,7 @@ if [ -f "/etc/redhat-release" ]; then
 	yum install git mysql-community-client p7zip -y
 else
 	apt update
-	apt install git default-mysql-client p7zip-full -y
+	apt install git mysql-client p7zip-full -y
 fi
 
 ## Install directory
