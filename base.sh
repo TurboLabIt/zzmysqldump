@@ -39,13 +39,74 @@ function zzmysqldumpConfigSet()
 zzmysqldumpConfigSet "$CONFIGFILE_FULLPATH_DEFAULT" "$CONFIGFILE_MYSQL_FULLPATH_ETC" "$CONFIGFILE_FULLPATH_ETC" "$CONFIGFILE_FULLPATH_DIR"
 
 
+## Config reading function (from zzmysqldump profile)
+function zzmysqldumpProfileConfigSet()
+{
+  local CONFIGFILE_PROFILE_NAME=${SCRIPT_NAME}.profile.${1}.conf
+  local CONFIGFILE_PROFILE_FULLPATH_ETC=/etc/turbolab.it/$CONFIGFILE_PROFILE_NAME
+  local CONFIGFILE_PROFILE_FULLPATH_DIR=${SCRIPT_DIR}$CONFIGFILE_PROFILE_NAME
+  
+  if [[ "$1" == /* ]]; then
+  
+    local CONFIGFILE_EXPLICIT=$1
+    
+  fi
+  
+  if [ ! -f "$CONFIGFILE_PROFILE_FULLPATH_ETC" ] && [ ! -f "$CONFIGFILE_PROFILE_FULLPATH_DIR" ] && [ ! -f "$CONFIGFILE_EXPLICIT" ]; then
+
+    echo ""
+    echo "vvvvvvvvvvvvvvvvvvvv"
+    echo "Catastrophic error!!"
+    echo "^^^^^^^^^^^^^^^^^^^^"
+    echo "Profile config file(s) not found:"
+    echo "[X] $CONFIGFILE_PROFILE_FULLPATH_ETC"
+    echo "[X] $CONFIGFILE_PROFILE_FULLPATH_DIR"
+    
+    if [ -z "$CONFIGFILE_EXPLICIT" ]; then
+    
+      echo "[X] no explicit file provided via CLI"
+    
+    else
+    
+      echo "[X] $CONFIGFILE_EXPLICIT "
+    
+    fi
+
+
+    echo ""
+    echo "How to fix it?"
+    echo "--------------"
+    echo "Create a config file for this profile:"
+    echo "sudo cp $CONFIGFILE_FULLPATH_DEFAULT $CONFIGFILE_PROFILE_FULLPATH_ETC && sudo nano $CONFIGFILE_PROFILE_FULLPATH_ETC && sudo chmod u=rw,go=r $CONFIGFILE_PROFILE_FULLPATH_ETC && ${SCRIPT_NAME} $1"
+
+    zzmysqldumpPrintEndFooter
+    exit
+    
+  fi
+  
+  zzmysqldumpConfigSet "$CONFIGFILE_PROFILE_FULLPATH_ETC" "$CONFIGFILE_PROFILE_FULLPATH_DIR" "$CONFIGFILE_EXPLICIT"
+}
+
+
+
 ## Retrive databases list and test connection
 function listDatabases()
 {
+  if [ ! -z "$MYSQL_PASSWORD" ]; then
+    local MYSQL_PASSWORD_HIDDEN="${MYSQL_PASSWORD:0:1}**...**${MYSQL_PASSWORD: -1}"
+  fi  
+    
+  echo ""
+  echo "Current config"
+  echo "--------------"
+  echo "User: ##${MYSQL_USER}##"
+  echo "Pass: ##${MYSQL_PASSWORD_HIDDEN}##"
+  echo "Host: ##${MYSQL_HOST}##"
+
   echo ""
   echo "Retrieving DBs list"
   echo "-------------------"
-  DATABASES=$(mysql -N -u "$MYSQL_USER" -p"$MYSQL_PASSWORD" -h "$MYSQL_HOST" -e 'show databases')
+  DATABASES=$(mysql -N -u "${MYSQL_USER}" -p"${MYSQL_PASSWORD}" -h "${MYSQL_HOST}" -e 'show databases')
 
   if [ $? -eq 0 ]; then
 

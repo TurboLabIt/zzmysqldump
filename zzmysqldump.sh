@@ -8,51 +8,7 @@ source "/usr/local/turbolab.it/zzmysqldump/base.sh"
 
 ## Dump profile requested
 if [ ! -z "$1" ]; then
-
-  CONFIGFILE_PROFILE_NAME=${SCRIPT_NAME}.profile.${1}.conf
-  CONFIGFILE_PROFILE_FULLPATH_ETC=/etc/turbolab.it/$CONFIGFILE_PROFILE_NAME
-  CONFIGFILE_PROFILE_FULLPATH_DIR=${SCRIPT_DIR}$CONFIGFILE_PROFILE_NAME
-  
-  if [[ "$1" == /* ]]; then
-  
-    CONFIGFILE_EXPLICIT=$1
-    
-  fi
-  
-  if [ ! -f "$CONFIGFILE_PROFILE_FULLPATH_ETC" ] && [ ! -f "$CONFIGFILE_PROFILE_FULLPATH_DIR" ] && [ ! -f "$CONFIGFILE_EXPLICIT" ]; then
-
-    echo ""
-    echo "vvvvvvvvvvvvvvvvvvvv"
-    echo "Catastrophic error!!"
-    echo "^^^^^^^^^^^^^^^^^^^^"
-    echo "Profile config file(s) not found:"
-    echo "[X] $CONFIGFILE_PROFILE_FULLPATH_ETC"
-    echo "[X] $CONFIGFILE_PROFILE_FULLPATH_DIR"
-    
-    if [ -z "$CONFIGFILE_EXPLICIT" ]; then
-    
-      echo "[X] no explicit file provided via CLI"
-    
-    else
-    
-      echo "[X] $CONFIGFILE_EXPLICIT "
-    
-    fi
-
-
-    echo ""
-    echo "How to fix it?"
-    echo "--------------"
-    echo "Create a config file for this profile:"
-    echo "sudo cp $CONFIGFILE_FULLPATH_DEFAULT $CONFIGFILE_PROFILE_FULLPATH_ETC && sudo nano $CONFIGFILE_PROFILE_FULLPATH_ETC && sudo chmod u=rw,go=r $CONFIGFILE_PROFILE_FULLPATH_ETC && ${SCRIPT_NAME} $1"
-
-    zzmysqldumpPrintEndFooter
-    exit
-    
-  fi
-  
-  zzmysqldumpConfigSet "$CONFIGFILE_PROFILE_FULLPATH_ETC" "$CONFIGFILE_PROFILE_FULLPATH_DIR" "$CONFIGFILE_EXPLICIT"
-  
+  zzmysqldumpProfileConfigSet "$1"
 fi
 
 ## Retrive databases list and test connection
