@@ -3,6 +3,8 @@ mysqldump every DB of your MySQL Server to its own, 7z-compressed file. The prov
 
 **Parli italiano?** » Leggi: [MySQL/mysqldump: creare un file distinto/singolo per ogni database con zzmysqldump (script)](https://turbolab.it/server-1224/mysql-mysqldump-creare-file-distinto-singolo-ogni-database-zzmysqldump-script-1311)
 
+![logo](https://turbolab.it/immagini/max/mysql-mysqldump-creare-file-distinto-singolo-ogni-database-zzmysqldump-script-zzmysqldump-spotlight-8837.img)
+
 
 # Install
 Just execute:
