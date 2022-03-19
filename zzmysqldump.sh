@@ -90,13 +90,12 @@ fi
 ## Set and clean the 7zip log for non-blocking mode
 if [ ${SEVENZIP_NON_BLOCKING} == 1 ]; then
 
-  SEVENZIP_NON_BLOCKING_LOGFILE_SUFFIX=background_7zipping.log
+  SEVENZIP_NON_BLOCKING_LOGFILE_SUFFIX=_background_7zipping.log
   echo ""
   echo "7-Zip NON-BLOCKING mode enabled"
   echo "-----------------------"
   echo "Cleaning up any leftover logs..."
   rm -f "${MYSQL_BACKUP_DIR}"*${SEVENZIP_NON_BLOCKING_LOGFILE_SUFFIX}
-  exit
 
 fi
 
