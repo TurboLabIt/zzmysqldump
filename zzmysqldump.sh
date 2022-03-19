@@ -94,6 +94,23 @@ do
   
 done
 
+## Remove old files
+echo ""
+echo "Deleting old files"
+echo "------------------"
+
+if [ -z "$1" ]; then
+
+  echo "Current retention: ##${RETENTION_DAYS}## day(s)"
+  find "${MYSQL_BACKUP_DIR}" -type f -mtime +${RETENTION_DAYS} \( -name "*.sql.7z" -o -name "*.sql" -o -name "*.log" \)
+  find "${MYSQL_BACKUP_DIR}" -type f -mtime +${RETENTION_DAYS} \( -name "*.sql.7z" -o -name "*.sql" -o -name "*.log" \) -delete
+  
+else
+
+  echo "Skipping when running with a profile"
+fi
+
+
 ## Display files
 echo ""
 echo "Backup file list"
