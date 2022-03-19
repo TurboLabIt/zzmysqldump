@@ -3,6 +3,7 @@ mysqldump every DB of your MySQL Server to its own, 7z-compressed file. The prov
 
 **Parli italiano?** » Leggi: [MySQL/mysqldump: creare un file distinto/singolo per ogni database con zzmysqldump (script)](https://turbolab.it/server-1224/mysql-mysqldump-creare-file-distinto-singolo-ogni-database-zzmysqldump-script-1311)
 
+
 # Install
 Just execute:
 
@@ -10,12 +11,16 @@ Just execute:
 
 Now copy the provided sample configuration file (`zzmysqldump.default.conf`) to your own `zzmysqldump.conf` and replace username, password and stuff:
 
+🤓 You don't need to set the `MYSQL_` vars to `root` if `/etc/turbolab.it/mysql.conf` exists! Pro tip: if you set the server up with [webstack](https://github.com/TurboLabIt/webstackup), the file was generated automatically. Just make sure you have the permission to read it, or run zzmysqldump as sudo.
+
 `sudo cp /usr/local/turbolab.it/zzmysqldump/zzmysqldump.default.conf /etc/turbolab.it/zzmysqldump.conf && sudo nano /etc/turbolab.it/zzmysqldump.conf`
+
 
 # Run it
 It's MySQL Server backup time! Run `zzmysqldump` to generate your 7z-compressed, database-dump files.
 
-# Known issues
+
+# Known issues (which are not features, for real)
 
 -> `mysqldump: Couldn't execute 'FLUSH TABLES': Access denied; you need (at least one of) the RELOAD privilege(s) for this operation (1227)`
 
