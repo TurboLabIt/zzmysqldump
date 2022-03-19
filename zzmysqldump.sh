@@ -20,6 +20,7 @@ echo "Creating backup directory"
 echo "-------------------------"
 echo "${MYSQL_BACKUP_DIR}"
 mkdir -p "${MYSQL_BACKUP_DIR}"
+touch "${MYSQL_BACKUP_DIR}WARNING! ⚠️ This folder gets cleaned periodically ⚠️"
 
 ## Exclude filter
 if [ ! -z "$MYSQL_DB_EXCLUDE" ]; then
