@@ -1,5 +1,6 @@
 SHELL=/bin/bash
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
 
-## Dump every database every night
-0 3 * * * root /usr/bin/zzmysqldump > /var/log/zzmysqldump_cron.log 2>&1
+## Dump every database, every night
+0 3 * * * root bash "/usr/local/turbolab.it/zzmysqldump/cron.sh" > /dev/null 2>&1 
+

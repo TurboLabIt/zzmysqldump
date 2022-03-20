@@ -6,13 +6,13 @@ SCRIPT_NAME=zzmysqldump
 
 ## Pre-requisites
 if [ -f "/etc/redhat-release" ]; then
-	yum clean all
-	yum install epel-release -y
-	yum clean all
-	yum install git mysql-community-client p7zip -y
+  yum clean all
+  yum install epel-release -y
+  yum clean all
+  yum install git mysql-community-client p7zip -y
 else
-	apt update
-	apt install git mysql-client p7zip-full -y
+  apt update
+  apt install git mysql-client p7zip-full -y
 fi
 
 ## Install directory
@@ -26,14 +26,14 @@ mkdir -p "/etc/turbolab.it/"
 ## Install/update
 echo ""
 if [ ! -d "$INSTALL_DIR" ]; then
-	echo "Installing..."
-	echo "-------------"
-	mkdir -p "$INSTALL_DIR_PARENT"
-	cd "$INSTALL_DIR_PARENT"
-	git clone https://github.com/TurboLabIt/${SCRIPT_NAME}.git
+  echo "Installing..."
+  echo "-------------"
+  mkdir -p "$INSTALL_DIR_PARENT"
+  cd "$INSTALL_DIR_PARENT"
+  git clone https://github.com/TurboLabIt/${SCRIPT_NAME}.git
 else
-	echo "Updating..."
-	echo "----------"
+  echo "Updating..."
+  echo "----------"
 fi
 
 ## Fetch & pull new code
@@ -43,11 +43,16 @@ git merge FETCH_HEAD
 
 ## Symlink (globally-available zzmysqldump command)
 if [ ! -e "/usr/bin/${SCRIPT_NAME}" ]; then
-	ln -s ${INSTALL_DIR}${SCRIPT_NAME}.sh /usr/bin/${SCRIPT_NAME}
+  ln -s ${INSTALL_DIR}${SCRIPT_NAME}.sh /usr/bin/${SCRIPT_NAME}
 fi
 
 if [ ! -e "/usr/bin/zzmysqlimp" ]; then
-	ln -s ${INSTALL_DIR}zzmysqlimp.sh /usr/bin/zzmysqlimp
+  ln -s ${INSTALL_DIR}zzmysqlimp.sh /usr/bin/zzmysqlimp
+fi
+
+## Copy the cron job
+if [ ! -f "/etc/cron.d/zzmysqldump" ]; then
+  cp "${INSTALL_DIR}cron" "/etc/cron.d/zzmysqldump"
 fi
 
 ## Restore working directory
