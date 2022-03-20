@@ -35,3 +35,111 @@ If you can't grant the RELOAD privilege to your user and you are in a dev/low-tr
 -> `7-zipping` fails. `Error: Incorrect command line`
 
 Your 7za package is ancient! It's failing due to the `-sdel` argument, introduced by 7-zip 9.30 alpha (2012-10-26). You can just remove this argument in your config. For example, just leave `SEVENZIP_COMPRESS_OPTIONS="-t7z -mx=9 -mfb=256 -md=256m -ms=on"`
+
+
+# Database compression: test and results
+
+The 7-zip compression is done with a command like this:
+
+`7za a -t7z -mx=9 -mfb=256 -md=256m db-dump.sql.7z db-dump.sql`
+
+[man 7za](https://linux.die.net/man/1/7za).
+
+I run a test against some real life db dumps to find the best compression options for this specific use case.
+
+````
+clear
+TIME_START="$(date +%s)"
+7za a -t7z -mx=9 -mfb=256 -md=128m "db_contenuti_tli.sql -t7z -mx=9 -mfb=256 -md=128m.7z" db_contenuti_tli.sql
+7za a -t7z -mx=9 -mfb=256 -md=128m "db_ecommerce_mobili.sql -t7z -mx=9 -mfb=256 -md=128m.7z" db_ecommerce_mobili.sql
+7za a -t7z -mx=9 -mfb=256 -md=128m "db_ecommerce_turismo.sql -t7z -mx=9 -mfb=256 -md=128m.7z" db_ecommerce_turismo.sql
+7za a -t7z -mx=9 -mfb=256 -md=128m "db_forum.sql -t7z -mx=9 -mfb=256 -md=128m.7z" db_forum.sql
+7za a -t7z -mx=9 -mfb=256 -md=128m "db_wordpress.sql -t7z -mx=9 -mfb=256 -md=128m.7z" db_wordpress.sql
+echo "$((($(date +%s)-$TIME_START)/60)) min."
+## 19 min.
+
+TIME_START="$(date +%s)"
+7za a -t7z -mx=9 -mfb=128 -md=128m "db_contenuti_tli.sql -t7z -mx=9 -mfb=128 -md=128m.7z" db_contenuti_tli.sql
+7za a -t7z -mx=9 -mfb=128 -md=128m "db_ecommerce_mobili.sql -t7z -mx=9 -mfb=128 -md=128m.7z" db_ecommerce_mobili.sql
+7za a -t7z -mx=9 -mfb=128 -md=128m "db_ecommerce_turismo.sql -t7z -mx=9 -mfb=128 -md=128m.7z" db_ecommerce_turismo.sql
+7za a -t7z -mx=9 -mfb=128 -md=128m "db_forum.sql -t7z -mx=9 -mfb=128 -md=128m.7z" db_forum.sql
+7za a -t7z -mx=9 -mfb=128 -md=128m "db_wordpress.sql -t7z -mx=9 -mfb=128 -md=128m.7z" db_wordpress.sql
+echo "$((($(date +%s)-$TIME_START)/60)) min."
+## 12 min.
+
+TIME_START="$(date +%s)"
+7za a -t7z -mx=9 -mfb=64 -md=128m "db_contenuti_tli.sql -t7z -mx=9 -mfb=64 -md=128m.7z" db_contenuti_tli.sql
+7za a -t7z -mx=9 -mfb=64 -md=128m "db_ecommerce_mobili.sql -t7z -mx=9 -mfb=64 -md=128m.7z" db_ecommerce_mobili.sql
+7za a -t7z -mx=9 -mfb=64 -md=128m "db_ecommerce_turismo.sql -t7z -mx=9 -mfb=64 -md=128m.7z" db_ecommerce_turismo.sql
+7za a -t7z -mx=9 -mfb=64 -md=128m "db_forum.sql -t7z -mx=9 -mfb=64 -md=128m.7z" db_forum.sql
+7za a -t7z -mx=9 -mfb=64 -md=128m "db_wordpress.sql -t7z -mx=9 -mfb=64 -md=128m.7z" db_wordpress.sql
+echo "$((($(date +%s)-$TIME_START)/60)) min."
+## 8 min.
+
+TIME_START="$(date +%s)"
+7za a -t7z -mx=9 -mfb=128 -md=64m "db_contenuti_tli.sql -t7z -mx=9 -mfb=128 -md=64m.7z" db_contenuti_tli.sql
+7za a -t7z -mx=9 -mfb=128 -md=64m "db_ecommerce_mobili.sql -t7z -mx=9 -mfb=128 -md=64m.7z" db_ecommerce_mobili.sql
+7za a -t7z -mx=9 -mfb=128 -md=64m "db_ecommerce_turismo.sql -t7z -mx=9 -mfb=128 -md=64m.7z" db_ecommerce_turismo.sql
+7za a -t7z -mx=9 -mfb=128 -md=64m "db_forum.sql -t7z -mx=9 -mfb=128 -md=64m.7z" db_forum.sql
+7za a -t7z -mx=9 -mfb=128 -md=64m "db_wordpress.sql -t7z -mx=9 -mfb=128 -md=64m.7z" db_wordpress.sql
+echo "$((($(date +%s)-$TIME_START)/60)) min."
+## 11 min.
+
+TIME_START="$(date +%s)"
+7za a -t7z -mx=9 -mfb=64 -md=64m "db_contenuti_tli.sql -t7z -mx=9 -mfb=64 -md=64m.7z" db_contenuti_tli.sql
+7za a -t7z -mx=9 -mfb=64 -md=64m "db_ecommerce_mobili.sql -t7z -mx=9 -mfb=64 -md=64m.7z" db_ecommerce_mobili.sql
+7za a -t7z -mx=9 -mfb=64 -md=64m "db_ecommerce_turismo.sql -t7z -mx=9 -mfb=64 -md=64m.7z" db_ecommerce_turismo.sql
+7za a -t7z -mx=9 -mfb=64 -md=64m "db_forum.sql -t7z -mx=9 -mfb=64 -md=64m.7z" db_forum.sql
+7za a -t7z -mx=9 -mfb=64 -md=64m "db_wordpress.sql -t7z -mx=9 -mfb=64 -md=64m.7z" db_wordpress.sql
+echo "$((($(date +%s)-$TIME_START)/60)) min."
+## 8 min.
+````
+
+These options triggered the OoM-Killer midway through the 3,5G dump compression on my PC with 16 GB of RAM:
+
+- `-mfb=256 -md=256m` 
+- `-mfb=128 -md=256m`
+
+Results:
+
+````
+exa -lh --color=always --no-user --no-time --no-permissions
+
+ 35M db_contenuti_tli.sql
+5,2M db_contenuti_tli.sql -t7z -mx=9 -mfb=64 -md=64m.7z
+5,2M db_contenuti_tli.sql -t7z -mx=9 -mfb=64 -md=128m.7z
+5,1M db_contenuti_tli.sql -t7z -mx=9 -mfb=128 -md=64m.7z
+5,1M db_contenuti_tli.sql -t7z -mx=9 -mfb=128 -md=128m.7z
+5,1M db_contenuti_tli.sql -t7z -mx=9 -mfb=256 -md=128m.7z
+3,5G db_ecommerce_mobili.sql
+140M db_ecommerce_mobili.sql -t7z -mx=9 -mfb=64 -md=64m.7z
+140M db_ecommerce_mobili.sql -t7z -mx=9 -mfb=64 -md=128m.7z
+134M db_ecommerce_mobili.sql -t7z -mx=9 -mfb=128 -md=64m.7z
+134M db_ecommerce_mobili.sql -t7z -mx=9 -mfb=128 -md=128m.7z
+132M db_ecommerce_mobili.sql -t7z -mx=9 -mfb=256 -md=128m.7z
+3,7G db_ecommerce_turismo.sql
+670M db_ecommerce_turismo.sql -t7z -mx=9 -mfb=64 -md=64m.7z
+662M db_ecommerce_turismo.sql -t7z -mx=9 -mfb=64 -md=128m.7z
+668M db_ecommerce_turismo.sql -t7z -mx=9 -mfb=128 -md=64m.7z
+660M db_ecommerce_turismo.sql -t7z -mx=9 -mfb=128 -md=128m.7z
+657M db_ecommerce_turismo.sql -t7z -mx=9 -mfb=256 -md=128m.7z
+183M db_forum.sql
+ 28M db_forum.sql -t7z -mx=9 -mfb=64 -md=64m.7z
+ 28M db_forum.sql -t7z -mx=9 -mfb=64 -md=128m.7z
+ 27M db_forum.sql -t7z -mx=9 -mfb=128 -md=64m.7z
+ 27M db_forum.sql -t7z -mx=9 -mfb=128 -md=128m.7z
+ 27M db_forum.sql -t7z -mx=9 -mfb=256 -md=128m.7z
+ 34M db_wordpress.sql
+1,4M db_wordpress.sql -t7z -mx=9 -mfb=64 -md=64m.7z
+1,4M db_wordpress.sql -t7z -mx=9 -mfb=64 -md=128m.7z
+1,3M db_wordpress.sql -t7z -mx=9 -mfb=128 -md=64m.7z
+1,3M db_wordpress.sql -t7z -mx=9 -mfb=128 -md=128m.7z
+1,3M db_wordpress.sql -t7z -mx=9 -mfb=256 -md=128m.7z
+ ````
+
+Takeaways:
+
+- the ratio difference is not significant
+- the speed difference is huge
+
+I chose `-mfb=64 -md=64m` as a default just because is the fastest. `-mx=9 -mfb=64 -md=128m` took more or less the same time, but only in one case it gave better result. So I went with 64/64m, just because it uses less RAM.
