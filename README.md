@@ -9,13 +9,19 @@ mysqldump every DB of your MySQL Server to its own, 7z-compressed file. The prov
 # Install
 Just execute:
 
-`curl -s https://raw.githubusercontent.com/TurboLabIt/zzmysqldump/master/setup.sh | sudo sh`
+````bash
+sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/zzmysqldump/master/setup.sh?$(date +%s) | sudo bash
+
+````
 
 Now copy the provided sample configuration file (`zzmysqldump.default.conf`) to your own `zzmysqldump.conf` and replace username, password and stuff:
 
 🤓 You don't need to set the `MYSQL_` vars to `root` if `/etc/turbolab.it/mysql.conf` exists! Pro tip: if you set the server up with [webstack](https://github.com/TurboLabIt/webstackup), the file was generated automatically. Just make sure you have the permission to read it, or run zzmysqldump as sudo.
 
-`sudo cp /usr/local/turbolab.it/zzmysqldump/zzmysqldump.default.conf /etc/turbolab.it/zzmysqldump.conf && sudo nano /etc/turbolab.it/zzmysqldump.conf`
+````bash
+sudo cp /usr/local/turbolab.it/zzmysqldump/zzmysqldump.default.conf /etc/turbolab.it/zzmysqldump.conf && sudo nano /etc/turbolab.it/zzmysqldump.conf
+
+````
 
 
 # Run it
