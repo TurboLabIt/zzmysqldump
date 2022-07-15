@@ -8,9 +8,8 @@ curl -s https://raw.githubusercontent.com/TurboLabIt/bash-fx/master/setup.sh?$(d
 source /usr/local/turbolab.it/bash-fx/bash-fx.sh
 ## bash-fx is ready
 
-sudo apt install git mysql-client p7zip-full -y
-
 sudo bash /usr/local/turbolab.it/bash-fx/setup/begin.sh ${SCRIPT_NAME}
+sudo apt install git mysql-client p7zip-full -y
 fxLinkBin ${INSTALL_DIR}${SCRIPT_NAME}.sh
 fxLinkBin ${INSTALL_DIR}zzmysqlimp.sh
 
