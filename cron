@@ -4,3 +4,6 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin
 ## Dump every database, every night
 0 3 * * * root bash "/usr/local/turbolab.it/zzmysqldump/cron.sh" > /dev/null 2>&1 
 
+
+## 👇🏻 If the last entry is missing a newline, cron will consider it broken and refuse to run it 👇🏻
+
