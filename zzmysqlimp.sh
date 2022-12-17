@@ -44,9 +44,9 @@ if [ ! -z "$2" ]; then
   echo ""
   
   REPLACE_REGEX='^-- Current Database: `.+`'
-  REPLACE_WITH_TEXT="--🦎 Database name replaced to ##$2## with https://github.com/TurboLabIt/zzmysqldump"
+  REPLACE_WITH_TEXT="-- Database name replaced to ##$2## with https://github.com/TurboLabIt/zzmysqldump"
   sed -i "s|${REPLACE_REGEX}|&\n${REPLACE_WITH_TEXT}|g" "${DUMPFILE_FULLPATH}" --regexp-extended
-  fxOK "🦎 Note added"
+  fxOK "Note added"
   
   REPLACE_REGEX='^/\*!40000 DROP DATABASE IF EXISTS `.+`\*/;'
   REPLACE_WITH_TEXT="/\\*!40000 DROP DATABASE IF EXISTS \`$2\`\\*/;"  
