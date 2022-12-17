@@ -1,7 +1,18 @@
 #!/usr/bin/env bash
 
-SCRIPT_NAME=zzmysqlimp
-source "/usr/local/turbolab.it/zzmysqldump/base.sh"
+## bash-fx
+if [ -z $(command -v curl) ]; then sudo apt update && sudo apt install curl -y; fi
+if [ -f "/usr/local/turbolab.it/bash-fx/bash-fx.sh" ]; then
+  source "/usr/local/turbolab.it/bash-fx/bash-fx.sh"
+else
+  source <(curl -s https://raw.githubusercontent.com/TurboLabIt/bash-fx/main/bash-fx.sh)
+fi
+## bash-fx is ready
+
+fxHeader "↖ zzmysqlimp"
+
+fxConfigLoader
+
 
 ## Checking input file
 DUMP_FULLPATH=$(readlink -f "$1")
