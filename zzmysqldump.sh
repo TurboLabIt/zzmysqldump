@@ -19,9 +19,9 @@ if [ ! -z "$MYSQL_PASSWORD" ]; then
   MYSQL_PASSWORD_HIDDEN="${MYSQL_PASSWORD:0:2}**...**${MYSQL_PASSWORD: -2}"
 fi  
     
-echo "User: ##${MYSQL_USER}##"
-echo "Pass: ##${MYSQL_PASSWORD_HIDDEN}##"
-echo "Host: ##${MYSQL_HOST}##"
+echo "👤 User: ##${MYSQL_USER}##"
+echo "🔑 Pass: ##${MYSQL_PASSWORD_HIDDEN}##"
+echo "🖥️ Host: ##${MYSQL_HOST}##"
 echo ""
 
 DATABASES=$(mysql -N -u "${MYSQL_USER}" -p"${MYSQL_PASSWORD}" -h "${MYSQL_HOST}" -e 'show databases')
