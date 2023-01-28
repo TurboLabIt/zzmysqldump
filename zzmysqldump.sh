@@ -93,6 +93,8 @@ fi
 ## Iterate over DBs
 for DATABASE in $DATABASES; do
 
+  DOWEEK="$(date +'%u')"
+
   ## Dump filename
   DUMPFILE_FULLPATH=${MYSQL_BACKUP_DIR}${HOSTNAME}_${DATABASE}_${DOWEEK}.sql
   
