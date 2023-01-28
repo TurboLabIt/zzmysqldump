@@ -82,7 +82,7 @@ fxTitle "🔫 Include/exclude triggers..."
 if [ "${MYSQLDUMP_SKIP_TRIGGERS}" = 1 ]; then
   
   fxWarning "Triggers skipping is enabled. Your dump WON'T contain any trigger"
-  MYSQLDUMP_SKIP_TRIGGERS_CLI_OPTION='--skip-triggers"
+  MYSQLDUMP_SKIP_TRIGGERS_CLI_OPTION="--skip-triggers"
   
 else
 
