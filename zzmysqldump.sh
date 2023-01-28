@@ -78,6 +78,18 @@ else
 fi
 
 
+fxTitle "🔫 Include/exclude triggers..."
+if [ "${MYSQLDUMP_SKIP_TRIGGERS}" = 1 ]; then
+  
+  fxWarning "Triggers skipping is enabled. Your dump WON'T contain any trigger"
+  MYSQLDUMP_SKIP_TRIGGERS_CLI_OPTION='--skip-triggers"
+  
+else
+
+  fxOK "Triggers will be included in your dump"
+fi
+
+
 ## Iterate over DBs
 for DATABASE in $DATABASES; do
 
@@ -86,8 +98,11 @@ for DATABASE in $DATABASES; do
   
   fxTitle "📦 mysqldumping ##${DATABASE}##"
   fxMessage "$DUMPFILE_FULLPATH"
-  mysqldump -u "$MYSQL_USER" -p"$MYSQL_PASSWORD" -h "$MYSQL_HOST" $MYSQLDUMP_OPTIONS --databases "$DATABASE" > "$DUMPFILE_FULLPATH"
-  
+  mysqldump \
+    -u "$MYSQL_USER" -p"$MYSQL_PASSWORD" -h "$MYSQL_HOST" \
+    $MYSQLDUMP_OPTIONS $MYSQLDUMP_SKIP_TRIGGERS_CLI_OPTION \
+    --databases "$DATABASE" > "$DUMPFILE_FULLPATH"
+
   fxTitle "🧪 Optimizing the exported file..."
   ## autocommit optimization - header
   NO_AUTOCOMMIT_TEXT="SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, AUTOCOMMIT=0;"
