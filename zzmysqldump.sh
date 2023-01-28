@@ -36,7 +36,7 @@ fxTitle "📂 Creating the backup directory..."
 MYSQL_BACKUP_DIR="${MYSQL_BACKUP_DIR%/}/"
 fxInfo "The backup directory is ##${MYSQL_BACKUP_DIR}##"
 mkdir -p "${MYSQL_BACKUP_DIR}"
-touch "${MYSQL_BACKUP_DIR}WARNING! ⚠️ This folder gets cleaned periodically ⚠️"
+touch "${MYSQL_BACKUP_DIR}⚠️ WARNING! This folder is auto-cleaned periodically!"
 
 
 fxTitle "🚫 Applying exclude filter..."
