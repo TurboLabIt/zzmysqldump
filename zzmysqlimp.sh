@@ -51,7 +51,7 @@ function sedReplace()
 
 if [ ! -z "$2" ]; then
 
-  fxInfo "OK, the new database name is going to be named #$2#"
+  fxInfo "OK, the new database name will be #$2#"
   echo ""
   
   REPLACE_REGEX='^-- Current Database: `.+`'
