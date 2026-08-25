@@ -55,11 +55,11 @@ zzmysqldump mydump.sql.7z new-database-name
 
 -> `mysqldump: Couldn't execute 'FLUSH TABLES': Access denied; you need (at least one of) the RELOAD privilege(s) for this operation (1227)`
 
-Some extra privileges are needed for the `--lock-all-tables` mysqldump argument activated by the default configuration. root has it, other users don't.
+Some extra privileges are needed for the `--lock-all-tables` mysqldump argument. It is no longer activated by the default configuration (it's been replaced by `--single-transaction`, which needs no RELOAD privilege and doesn't block writes), but it may still be present in your custom config. root has it, other users don't.
 
 As root, grant it: `GRANT RELOAD, PROCESS ON *.* TO 'your_user'@'127.0.0.1'` (some of these can only be granted globally, not to a particular database).
 
-If you can't grant the RELOAD privilege to your user and you are in a dev/low-traffic enviroment, you can just remove `--lock-all-tables` in your config. For example, just leave `MYSQLDUMP_OPTIONS="--opt --add-drop-database"`
+If you can't grant the RELOAD privilege to your user, just replace `--lock-all-tables` with `--single-transaction` in your config. For example: `MYSQLDUMP_OPTIONS="--opt --add-drop-database --single-transaction --routines --force"`
 
 -> `7-zipping` fails. `Error: Incorrect command line`
 
