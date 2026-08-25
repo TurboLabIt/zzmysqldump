@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-echo ""
 
-## Script name
-SCRIPT_NAME="zzmysqldump"
-
-bash "/usr/local/turbolab.it/zzmysqldump/zzmysqldump.sh" > "${MYSQL_BACKUP_DIR}automatic-backup.log" 2>&1
+## Legacy entry point: /etc/cron.d/zzmysqldump on pre-existing installs runs this script.
+## New installs run bash-fx's cron-run.sh directly (see ./cron)
+bash "/usr/local/turbolab.it/bash-fx/cron-run.sh" "zzmysqldump" "zzmysqldump.sh"
